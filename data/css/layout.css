@@ -1,0 +1,338 @@
+/*
+    Software Developed by Trevias Xk
+    Social Networks:     treviasxk
+    Github:              https://github.com/treviasxk
+    Paypal:              trevias@live.com
+*/
+
+/*Layout main*/
+:root {
+    --PrimaryColor: #065acf;
+    --SegundaryColor: #03498f;
+    --BackgroundColor: #000000;
+    --ShadowColor: #006aff5b;
+    --AppBarText: #FFFFFF;
+    --PanelBackground: #000000c0;
+}
+
+@media (prefers-color-scheme: light) {
+    body {
+        --TextColor: #000000;
+        --BackgroundColor: #FFFFFF;
+    }
+}
+@media (prefers-color-scheme: dark) {
+    body {
+        --TextColor: #FFFFFF;
+        --BackgroundColor: #000000;
+    }
+}
+
+@media (max-width: 1024px) {
+    .Feed {
+        display: table;
+        margin: 0px auto;
+        width: 100%;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    background: var(--BackgroundColor);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--PrimaryColor);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--SegundaryColor);
+}
+
+body {
+    background: var(--BackgroundColor);
+    color: var(--TextColor);
+    overflow: hidden;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+body > video {
+    position: fixed;
+    opacity: 0.3;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    object-fit: cover;
+}
+
+video {
+    width: 100%;
+}
+
+#ScreenLoading {
+    display: table;
+    z-index: 1;
+    position: fixed;
+    left:0px;
+    top:0px;
+    margin-top:50px;
+    width: 100%;
+    height: calc(100% - 50px);
+    text-align: center;
+    background-color: var(--BackgroundColor);
+}
+#ScreenLoading > .ContentScreenLoading {
+    display: table-cell;
+    vertical-align: middle;
+}
+#AppBar {
+    z-index: 2;
+    display: table-header-group;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 50px;
+    background-color: var(--PrimaryColor);
+    box-shadow: 0px 0px 5px var(--ShadowColor);
+    transition: 0.2s;
+}
+#AppBar > div {
+    display: table-cell;
+    vertical-align: middle;
+    height: inherit;
+    color: var(--AppBarText);
+}
+#AppBar > .Middle {
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+#Navigate {
+    z-index: 3;
+    display: table;
+    text-align: center;
+    margin: 0px auto;
+    position: fixed;
+    left: -100%;
+    top: 0px;
+    width: 75%;
+    max-width: 400px;
+    height: 100%;
+    color: var(--TextColor);
+    background: var(--BackgroundColor);
+    box-shadow: 0px 0px 5px var(--ShadowColor);
+    transition: 0.2s linear;
+}
+
+#Content {
+    position: absolute;
+    left: 0px;
+    top: 50px;
+    width: 100%;
+    min-height: calc(100% - 50px);
+    transition: 0.2s;
+}
+
+#Alert {
+    visibility: hidden;
+    position: fixed;
+    display: inline-table;
+    bottom: 40px;
+    left: calc(50% - 150px);
+    width: 300px;
+    text-align: center;
+    z-index: 4;
+    margin: 0px;
+    display: inline-block;
+    border-radius: 10px;
+    background: #000000;
+    padding: 10px;
+    opacity: 0;
+    font-size: 16px;
+    transition: 1s;
+}
+
+input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin: 10px;
+}
+
+#Tag{
+    cursor: pointer;
+    font-size: 10px;
+    display: inline-block;
+    margin: 0px 5px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: var(--PrimaryColor);
+    color: var(--AppBarText);
+}
+
+#Submit {
+    cursor: pointer;
+    color: var(--AppBarText);
+    background-color: var(--PrimaryColor);
+}
+#Submit:disabled {
+    background-color: var(--ShadowColor);
+}
+
+/*Botões*/
+#BackPage {
+    cursor: pointer;
+    margin: 0px 15px;
+    width: 25px;
+    height: 25px;
+    background: url("/data/img/icons.png") -25px 0px;
+}
+#OpenMenu {
+    cursor: pointer;
+    margin: 0px 15px;
+    width: 25px;
+    height: 25px;
+    background: url("/data/img/icons.png") 0px 0px;
+}
+#SignIn{
+    cursor: pointer;
+    margin: 0px 15px;
+    width: 25px;
+    height: 25px;
+    background: url("/data/img/icons.png") -50px 0px;
+}
+#Perfil{
+    cursor: pointer;
+    margin: 0px 15px;
+    width: 25px;
+    height: 25px;
+    background: url("/data/img/icons.png") -75px 0px;
+    border-radius: 25px;
+}
+
+#Edit{
+    cursor: pointer;
+    margin: 0px 15px;
+    width: 25px;
+    height: 25px;
+    background: url("/data/img/icons.png") -100px 0px;
+}
+
+#Pin {
+    display: inline-block;
+    margin: -5px 10px -5px 0px;
+    width: 25px;
+    height: 25px;
+    background: url("/data/img/icons.png") -125px 0px;
+}
+
+
+#Filter{
+    display: inline-block;
+    cursor: pointer;
+    margin: 0px 15px;
+    width: 25px;
+    height: 25px;
+    background: url("/data/img/icons.png") -150px 0px;
+}
+
+#Search{
+    display: inline-block;
+    cursor: pointer;
+    margin: 0px 15px;
+    width: 25px;
+    height: 25px;
+    background: url("/data/img/icons.png") -175px 0px;
+}
+
+#NoButton{
+    margin: 0px 15px;
+    width: 25px;
+    height: 25px;
+}
+
+#Options{
+    display: inline-block;
+    cursor: pointer;
+    margin: 0px 15px;
+    width: 25px;
+    height: 25px;
+    background: url("/data/img/icons.png") 0px -25px;
+}
+
+.Feed {
+    display: table;
+    margin: 0px auto;
+    width: 1024px;
+    max-width: 100%;
+}
+
+/*Animações*/
+.SlideLeft {
+    animation: slideleft 0.4s linear;
+}
+
+.SlideRight {
+    animation: slideright 0.4s linear;
+}
+
+
+@keyframes slideleft {
+    0%{
+        left: 200%;
+    }
+    50%{
+        left: 100%;
+    }
+    100%{
+        left: 0%;
+    }
+}
+
+@keyframes slideright {
+    0%{
+        left: 0%;
+    }
+    50%{
+        left: 100%;
+    }
+    100%{
+        left: 200%;
+    }
+}
+
+  
+  .dropdown {
+    position: absolute;
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    margin-left: -110px;
+    display: none;
+    min-width: 160px;
+    z-index: 1;
+    border-radius: 5px;
+    background: var(--SegundaryColor);
+  }
+  
+  .dropdown-content a {
+    padding: 10px;
+    text-decoration: none;
+    display: block;
+    color: var(--AppBarText);
+  }
+  
+  .dropdown:hover .dropdown-content {display: block;}

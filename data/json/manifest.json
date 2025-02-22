@@ -1,0 +1,21 @@
+{
+    "short_name": "TX",
+    "name": "Trevias Xk",
+    "icons": [
+      {
+        "src": "/data/img/logo-192x192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "/data/img/logo.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ],
+    "start_url": "/?source=mobile",
+    "background_color": "#1E90FF",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#1E90FF"
+  }

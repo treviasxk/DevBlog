@@ -1,0 +1,25 @@
+<div class="Feed">
+    <div>
+        <div id="FilterBackground" style="cursor: pointer; display: inline-block; margin: 20px 0px 10px 10px; padding: 5px; border-radius: 5px; background: var(--ShadowColor); text-align: center;" onclick="FilterItem.style.display = (FilterItem.style.display == 'none' ? 'block' : 'none');">
+            <div id="Filter"></div>
+              
+            <div id="FilterItem" style="display: none; opacity: 1f; padding: 5px; position: fixed; cursor: auto; border-radius: 5px; margin-top: 10px; background: var(--SegundaryColor); z-index: 1;">
+                <div class="dropdown-content" style="display: block; margin-left: 0px; max-height: 500px; overflow: auto;">
+                    <a href="#" onclick="window.location.href='?page=blog'">None</a>
+                    <hr/>
+                    <a href="#" onclick="window.location.href='?page=blog&tag=Announce'">Announce</a>
+                    <a href="#" onclick="window.location.href='?page=blog&tag=Release'">Release</a>
+                    <a href="#" onclick="window.location.href='?page=blog&tag=Changelog'">Changelog</a>
+                    <a href="#" onclick="window.location.href='?page=blog&tag=Other'">Other</a>
+                </div>
+            </div>
+        </div>
+
+        <input required id="search" onkeypress="SearchPost(event)" type="text" placeholder="Search..."
+            style="position: relative; top: -6px;display: inline-block; margin: 10px; border-radius: 5px; border: var(--ShadowColor) 1px solid; width: calc(100% - 122px); padding: 10px; background-color: var(--PanelBackground); color: var(--TextColor)" />
+    </div>
+    <div id="Posts"></div>
+    <div id="LoadingContent" style="text-align: center;">
+        <img src="data/img/loading.gif" width="50" height="50" alt="Carregando..." />
+    </div>
+</div>
