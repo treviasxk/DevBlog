@@ -13,8 +13,7 @@
         <link type="text/css" rel="stylesheet" href="data/css/layout.css"/>
         <link href="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.snow.css" rel="stylesheet"/>
         <link rel="icon" href="data/img/favicon.ico"/>
-        <script type="text/javascript" src="data/js/config.js"></script>
-        <script type="text/javascript" src="data/js/layout.js"></script>
+        <script type="text/javascript" src="./data/js/config.js"></script>
         <script type="text/javascript" src="data/js/main.js"></script>
         <script type="module" src="data/js/supabase.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.js"></script>
@@ -30,7 +29,10 @@
             <div class="ContentScreenLoading"><img src="data/img/loading.gif" width="125" height="125" alt="Loading..."/></div>
         </div>
         <div id="Navigate">
-            <div w3-include-html="data/layout/navigate.html"></div>
+            <h1>Menu</h1>
+            <div class="VerticalMenu"></div>
+            <div class="Footer">
+            </div>
         </div>
         <div id="Content" onclick="OpenNavigation(false);">
             <div w3-include-html="data/pages/home.html"></div>
