@@ -16,8 +16,8 @@ var Pages = {
     "home": "Home",
     "blog": "Blog",
     "donate": "Donate",
+    "contact": "Contact",
     "about": "About",
-    "contact": "Contact"
 };
 
 // Social Networks
