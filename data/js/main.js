@@ -22,18 +22,52 @@ var supabaseUser = null;
 var Authenticated = null;
 var pageIndex = 0;
 var firstRunning = true;
+var ImageContent = null;
+
 ChangeTitle(Title);
 
 window.addEventListener("load", function(){
+    UpdateMetatags();
     CheckSession();
-    LoadPages();
+    LoadMenuPages();
     LoadSocialNetworks();
     AppMain();
 }, false);
 
+function UpdateMetatags(title, description, keywords, image){
+    title ??= Title;
+    description ??= "DevBlog is a simple blog system, with a clean and responsive layout, developed in pure HTML, CSS and JavaScript. It has a blog system, contact form, about page and donation page.";
+    keywords ??= "open-source, blog, github, javascript, css3, html5, supabase";
 
+    var metatags = document.getElementsByTagName("meta");
+    for(const tag of metatags){
+        if(tag.getAttribute("property") == "og:title")
+            tag.setAttribute("content", title);
+        if(tag.getAttribute("name") == "twitter:title")
+            tag.setAttribute("content", title);
 
-function LoadPages(){
+        if(image && tag.getAttribute("property") == "og:image")
+            tag.setAttribute("content", image);
+        if(image && tag.getAttribute("name") == "twitter:image")
+            tag.setAttribute("content", image);
+
+        if(tag.getAttribute("name") == "keywords")
+            tag.setAttribute("content", keywords);
+
+        if(tag.getAttribute("name") == "keywords")
+            tag.setAttribute("content", keywords);
+        
+        if(tag.getAttribute("name") == "description")
+            tag.setAttribute("content", description);
+        if(tag.getAttribute("property") == "og:description")
+            tag.setAttribute("content", description);
+        if(tag.getAttribute("name") == "twitter:description")
+            tag.setAttribute("content", description);
+
+    }
+}
+
+function LoadMenuPages(){
     var pages = document.getElementsByClassName("VerticalMenu").item(0);
     var valores = Object.entries(Pages);
     for(const page of valores){
@@ -288,10 +322,10 @@ async function LoadBlog(id, content){
 
 async function LoadPost(id, content){
     content.removeAttribute("w3-include-html");
-    const { data, error } = await supabase
+    const { data } = supabase ? await supabase
     .from('blog')
     .select()
-    .eq('id', id);
+    .eq('id', id) : { data: null };
 
     var afterContent = ()=>{
         if(Authenticated)
@@ -303,9 +337,11 @@ async function LoadPost(id, content){
             previewbtn.style.background = "var(--PanelBackground)";
         }else{
             ChangeTitle(data[0].title, "Post");
+            var content = EmbedContent(data[0].content);
+            UpdateMetatags(data[0].title, RemoveHTMLTags(content).substring(0, MaxCharacteresPosts) + "...", data[0].tags, ImageContent);
             document.getElementsByClassName("title").item(0).innerHTML = (data[0].pin ? '<div id="Pin"></div>' : "") + data[0].title;
             document.getElementsByClassName("title").item(0).innerHTML += CreateTag(data[0].tags); 
-            document.getElementsByClassName("content").item(0).innerHTML = EmbedContent(data[0].content);
+            document.getElementsByClassName("content").item(0).innerHTML = content;
             document.getElementsByClassName("CardDateTime").item(0).innerText = new Date(data[0].date);
             if(Authenticated){
                 const title = document.getElementById('titlepost');
@@ -317,7 +353,6 @@ async function LoadPost(id, content){
                 title.value = data[0].title;
                 tags.value = data[0].tags;
             }
-
         }
 
         if(Authenticated){
@@ -357,6 +392,7 @@ async function LoadPage(page, content, action = null){
           content.innerHTML = this.responseText;
           SelectMenuItem(page);
           ChangeTitle(Pages[page] || page);
+          UpdateMetatags(Pages[page] || page);
 
           if(searchParams.get("post")){
             if(elmnt)
@@ -430,13 +466,13 @@ async function LoadPostsBlog(){
             firstRunning = false;
             // Get posts not pinned
 
-            var { data } = await supabase.rpc('getblogcontent', {
+            var { data } = supabase ? await supabase.rpc('getblogcontent', {
                 query: `%${query}%`,
                 tag: `%${tag}%`,
                 max: MaxCharacteresPosts,
                 range: TotalPostsLoadInScroll,
                 next: pageIndex * TotalPostsLoadInScroll,
-            });
+            }) : { data: null };
 
             if(data && data[0]){
                 for(i = 0; i < data.length; i++)
@@ -468,24 +504,23 @@ function CreateTag(tags){
     return result;
 }
 
+
 function EmbedContent(markdown, textOnly = false){
     let html = markdown;
     // Img
     var regex = /https?:\/\/[^\s"'<>]+?\.(jpe?g|png|gif)(\?[^"\s]*)?/g;
     var match = markdown.match(regex);
-    var image = null;
 
-    if(match){
-    for(const item in match)
+    if(match)
+    for(const item in match){
+        ImageContent ??= match[item];
         if(textOnly){
-            image ??= `<img  style='height: 100px;width: auto; max-width: 300px;float: left;padding-right: 15px;' src="${match[item]}"/>`;
             html = html.replaceAll("<p>" + match[item] + "</p>", "");
             html = RemoveHTMLTags(html);
+            if(ImageContent)
+                html = `<img style='height: 100px;width: auto; max-width: 300px;float: left;padding-right: 15px;' src="${match[item]}"/>` + html;
         }else
             html = html.replaceAll("<p>" + match[item] + "</p>", `<img src="${match[item]}"></img>`)
-        if(image){
-            html = image + html;
-        }
     }
 
     // video
@@ -517,7 +552,7 @@ function EmbedContent(markdown, textOnly = false){
         }
     }
 
-    return '<p style="margin-top:10px;' + (image ? 'min-height: 100px;' : '') + '">' + html + '</p>'; // Return original string if no match is found
+    return '<p style="margin-top:10px;' + (ImageContent ? 'min-height: 100px;' : '') + '">' + html + '</p>'; // Return original string if no match is found
 }
 
 function RemoveHTMLTags(html){
