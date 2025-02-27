@@ -27,45 +27,11 @@ var ImageContent = null;
 ChangeTitle(Title);
 
 window.addEventListener("load", function(){
-    UpdateMetatags();
     CheckSession();
     LoadMenuPages();
     LoadSocialNetworks();
     AppMain();
 }, false);
-
-function UpdateMetatags(title, description, keywords, image){
-    title ??= Title;
-    description ??= "DevBlog is a simple blog system, with a clean and responsive layout, developed in pure HTML, CSS and JavaScript. It has a blog system, contact form, about page and donation page.";
-    keywords ??= "open-source, blog, github, javascript, css3, html5, supabase";
-
-    var metatags = document.getElementsByTagName("meta");
-    for(const tag of metatags){
-        if(tag.getAttribute("property") == "og:title")
-            tag.setAttribute("content", title);
-        if(tag.getAttribute("name") == "twitter:title")
-            tag.setAttribute("content", title);
-
-        if(image && tag.getAttribute("property") == "og:image")
-            tag.setAttribute("content", image);
-        if(image && tag.getAttribute("name") == "twitter:image")
-            tag.setAttribute("content", image);
-
-        if(tag.getAttribute("name") == "keywords")
-            tag.setAttribute("content", keywords);
-
-        if(tag.getAttribute("name") == "keywords")
-            tag.setAttribute("content", keywords);
-        
-        if(tag.getAttribute("name") == "description")
-            tag.setAttribute("content", description);
-        if(tag.getAttribute("property") == "og:description")
-            tag.setAttribute("content", description);
-        if(tag.getAttribute("name") == "twitter:description")
-            tag.setAttribute("content", description);
-
-    }
-}
 
 function LoadMenuPages(){
     var pages = document.getElementsByClassName("VerticalMenu").item(0);
