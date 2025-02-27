@@ -439,13 +439,14 @@ async function LoadPostsBlog(){
             }) : { data: null };
 
             if(data && data[0]){
-                for(i = 0; i < data.length; i++)
+                for(i = 0; i < data.length; i++){
                     Card.innerHTML += `<div class="Card"><a style='width:calc(100% - 40px)' ` + (data[i].pin ? 'class="Pin"' : '') +' href="?post=' +data[i].id +'">' +  (data[i].pin ? '<div id="Pin"></div>' : '') + data[i].title + `</a><div class="dropdown">
   <div id="Options"></div>
   <div class="dropdown-content">
     <a href="#" onclick="navigator.clipboard.writeText('${window.location.hostname}/?post=${data[i].id}');ShowToast('URL Copied!', 'var(--PrimaryColor)');">Copy URL</a>
   </div>
-</div>` + '<br/>' + await CreateTag(data[i].tags) + EmbedContent(data[i].content, true)+'<hr/><div class="CardDateTime">' + new Date(data[i].date) + '</div></div></div>';
+</div>` + '<br/>' + await CreateTag(data[i].tags) + EmbedContent(data[i].content, true) + '<hr/><div class="CardDateTime">' + new Date(data[i].date) + '</div></div></div>';
+                }
                 ++pageIndex;
                 firstRunning = true;
                 LoadPostsBlog();
@@ -477,13 +478,11 @@ function EmbedContent(markdown, textOnly = false){
 
     if(match)
     for(const item in match){
-        ImageContent ??= match[item];
-        if(textOnly){
+        ImageContent = match[0];
+
+        if(textOnly)
             html = html.replaceAll("<p>" + match[item] + "</p>", "");
-            html = RemoveHTMLTags(html);
-            if(ImageContent)
-                html = `<img style='height: 100px;width: auto; max-width: 300px;float: left;padding-right: 15px;' src="${match[item]}"/>` + html;
-        }else
+        else
             html = html.replaceAll("<p>" + match[item] + "</p>", `<img src="${match[item]}"></img>`)
     }
 
@@ -496,7 +495,6 @@ function EmbedContent(markdown, textOnly = false){
         if(textOnly){
             // Remove video link from text
             html = html.replaceAll("<p>" + match[item] + "</p>", "");
-            html = RemoveHTMLTags(html);
         }else
         html = html.replaceAll("<p>" + match[item] + "</p>", `<video autoplay="" muted="" loop="" disablepictureinpicture="" width="100%" controls><source src="${match[item]}"></video>`)
 
@@ -509,13 +507,18 @@ function EmbedContent(markdown, textOnly = false){
         if(textOnly){
             // Remove youtube link from text
             html = html.replaceAll("<p>" +match[item] + "</p>","");
-            html = RemoveHTMLTags(html);
         }else{
             var id = match[item].replace("youtu.be/","").replace("youtube.com/watch?v=","").replace("https://","").replace("www.","");
             html = html.replaceAll("<p>" +match[item] + "</p>", `<iframe width="100%" height="415" src="https://www.youtube.com/embed/${id}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`);
         }
     }
 
+    if(textOnly){
+        html = RemoveHTMLTags(html);
+        if(ImageContent)
+            html = `<img style='height: 100px;width: auto; max-width: 300px;float: left;padding-right: 15px;' src="${ImageContent}"/>` + html;    
+    }
+    
     return '<p style="margin-top:10px;' + (ImageContent ? 'min-height: 100px;' : '') + '">' + html + '</p>'; // Return original string if no match is found
 }
 
@@ -562,7 +565,7 @@ async function Publish(){
     const tags = document.getElementById('tagspost');
     const urlParams = new URLSearchParams(window.location.search);
     let searchParams = new URLSearchParams(urlParams);
-
+    document.getElementById("Process").style.display = "grid";
     if(title.value.length < 5)
         ShowToast("The title cannot be less than 5 characteres!")
     else
@@ -576,7 +579,9 @@ async function Publish(){
         .from('blog')
         .update({ title: title.value, content: textArea.innerHTML, pin: pin.checked, tags: tags.value})
         .eq('id', id)
-        window.location.href='?post=' + id;
+
+        await SendDiscordWebHook(title.value, textArea.innerHTML, `${hostname}?post=${id}`);
+        window.location.href=`${hostname}?post=${id}`;
     }else{
         // insert
         const { data, error } = await supabase
@@ -585,14 +590,17 @@ async function Publish(){
           { title: title.value, content: textArea.innerHTML, pin: pin.checked, tags: tags.value},
         ])
         .select();
-        window.location.href='?post=' + data[0].id;
+
+        await SendDiscordWebHook(title.value, textArea.innerHTML, `${hostname}?post=${id}`);
+        window.location.href=`${hostname}?post=${id}`;
     }
+    document.getElementById("Process").style.display = "none";
 }
 
 async function Delete(){
     const urlParams = new URLSearchParams(window.location.search);
     let searchParams = new URLSearchParams(urlParams);
-
+    document.getElementById("Process").style.display = "grid";
     if(searchParams.get("post")){
         const response = await supabase
         .from('blog')
@@ -600,6 +608,7 @@ async function Delete(){
         .eq('id', searchParams.get("post"));
         window.location.href='?page=blog';
     }
+    document.getElementById("Process").style.display = "none";
 }
 
 function SearchPost(event){
@@ -621,10 +630,49 @@ function RefreshContent(){
     const tags = document.getElementById('tagspost');
     const content = EmbedContent(textArea.innerHTML);
 
-    console.log(pin.checked);
     document.getElementsByClassName("title").item(0).innerHTML = (pin.checked ? '<div id="Pin"></div>' : "") + (title.value != "" ? title.value : "Title");
     document.getElementsByClassName("title").item(0).innerHTML += CreateTag(tags.value); 
 
     document.getElementsByClassName("content").item(0).innerHTML = content;
     document.getElementsByClassName("CardDateTime").item(0).innerHTML = new Date();
+}
+
+async function SendDiscordWebHook(title, description, url) {
+    if(title && description){
+        description = RemoveHTMLTags(EmbedContent(description)).substring(0, MaxCharacteresPosts);
+        description += description.length < MaxCharacteresPosts ? "" : "...";
+
+        if(url)
+            description += `\n\n[Visit WebSite](${url})`;
+
+        const mensagem = {
+            username: Title, // Nome do bot (opcional)
+            avatar_url: 'https://treviasxk.github.io/DevBlog/data/img/logo.png', // URL do avatar (opcional)
+            embeds: [{
+                title: title,
+                description: description,
+                color: 5814783, // Cor em decimal (azul neste caso)
+                image: {
+                    url: ImageContent ? ImageContent : '' // URL da imagem
+                },
+                footer: {
+                    text: Title,
+                    icon_url: hostname + '/data/img/logo.png'
+                },
+                timestamp: new Date().toISOString()
+            }]
+        };
+        
+        try{
+            await fetch(DiscordWebHook, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(mensagem)
+            });
+        }catch (erro) {
+
+        }
+    }
 }

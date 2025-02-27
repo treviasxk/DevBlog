@@ -30,6 +30,9 @@ var SocialNetworks = {
     "instagram": "",
 }
 
-// Supabase Config
+// Webhook
+var DiscordWebHook = "";
+
+// Supabase
 var SupabaseUrl = "";
 var SupabaseKey = "";

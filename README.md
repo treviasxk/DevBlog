@@ -16,3 +16,4 @@ This project is using the [WebAppMobile](https://github.com/treviasxk/WebAppMobi
   - Search posts in Blog page.
   - Embed links Youtube, Image and Video to posts.
   - Scroll infinit load post in blog page.
+  - Suport to WebHook in Discord.
