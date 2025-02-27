@@ -304,7 +304,6 @@ async function LoadPost(id, content){
         }else{
             ChangeTitle(data[0].title, "Post");
             var content = EmbedContent(data[0].content);
-            UpdateMetatags(data[0].title, RemoveHTMLTags(content).substring(0, MaxCharacteresPosts) + "...", data[0].tags, ImageContent);
             document.getElementsByClassName("title").item(0).innerHTML = (data[0].pin ? '<div id="Pin"></div>' : "") + data[0].title;
             document.getElementsByClassName("title").item(0).innerHTML += CreateTag(data[0].tags); 
             document.getElementsByClassName("content").item(0).innerHTML = content;
@@ -358,7 +357,6 @@ async function LoadPage(page, content, action = null){
           content.innerHTML = this.responseText;
           SelectMenuItem(page);
           ChangeTitle(Pages[page] || page);
-          UpdateMetatags(Pages[page] || page);
 
           if(searchParams.get("post")){
             if(elmnt)
