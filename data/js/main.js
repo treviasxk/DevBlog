@@ -645,7 +645,7 @@ async function SendDiscordWebHook(title, description, url) {
             description += `\n\n[Visit WebSite](${url})`;
 
         const mensagem = {
-            username: Title, // Nome do bot (opcional)
+            username: "DevBlog", // Nome do bot (opcional)
             avatar_url: 'https://treviasxk.github.io/DevBlog/data/img/logo.png', // URL do avatar (opcional)
             embeds: [{
                 title: title,
