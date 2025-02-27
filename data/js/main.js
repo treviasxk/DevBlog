@@ -580,7 +580,6 @@ async function Publish(){
         .update({ title: title.value, content: textArea.innerHTML, pin: pin.checked, tags: tags.value})
         .eq('id', id)
 
-        await SendDiscordWebHook(title.value, textArea.innerHTML, `${hostname}?post=${id}`);
         window.location.href=`${hostname}?post=${id}`;
     }else{
         // insert
