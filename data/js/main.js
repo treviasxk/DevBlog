@@ -590,8 +590,8 @@ async function Publish(){
         ])
         .select();
 
-        await SendDiscordWebHook(title.value, textArea.innerHTML, `${hostname}?post=${id}`);
-        window.location.href=`${hostname}?post=${id}`;
+        await SendDiscordWebHook(title.value, textArea.innerHTML, `${hostname}?post=${data[0].id}`);
+        window.location.href=`${hostname}?post=${data[0].id}`;
     }
     document.getElementById("Process").style.display = "none";
 }
