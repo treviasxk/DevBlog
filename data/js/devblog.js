@@ -45,7 +45,7 @@ function LoadSocialNetworks(){
     var socials = document.getElementsByClassName("Footer").item(0);
     var valores = Object.entries(SocialNetworks);
     for(const social of valores){
-        socials.innerHTML += `<a href="${social[1]}"><img src="../../data/img/socials/${social[0]}.png" title="${social[0]}" draggable="false"></a>`;
+        socials.innerHTML += `<a href="${social[1]}"><img src="data/img/socials/${social[0]}.png" title="${social[0]}" draggable="false"></a>`;
     }
     socials.innerHTML += `<p>Made with <a href="https://github.com/treviasxk/DevBlog">DevBlog</a></p>`;
 }
