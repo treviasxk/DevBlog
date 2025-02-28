@@ -24,20 +24,19 @@ var pageIndex = 0;
 var firstRunning = true;
 var ImageContent = null;
 
-ChangeTitle(Title);
-
-window.addEventListener("load", function(){
-    CheckSession();
-    LoadMenuPages();
-    LoadSocialNetworks();
-    AppMain();
+window.addEventListener("load", async function(){
+    await CheckSession();
+    await LoadMenuPages();
+    await LoadSocialNetworks();
+    await AppMain();
+    CloseScreenLoading();
 }, false);
 
 function LoadMenuPages(){
     var pages = document.getElementsByClassName("VerticalMenu").item(0);
     var valores = Object.entries(Pages);
     for(const page of valores){
-        var url = page[0] == "home" ? hostname : "?page=" + page[0];
+        var url = hostname + (page[0] == "home" ? "" : "?page=" + page[0]);
         pages.innerHTML += `<a href="${url}" class="MenuItem">${page[1]}</a>`;
     }
 }
@@ -46,12 +45,12 @@ function LoadSocialNetworks(){
     var socials = document.getElementsByClassName("Footer").item(0);
     var valores = Object.entries(SocialNetworks);
     for(const social of valores){
-        socials.innerHTML += `<a href="${social[1]}"><img src="../../data/img/${social[0]}-logo.png" title="Instagram" draggable="false"></a>`;
+        socials.innerHTML += `<a href="${social[1]}"><img src="../../data/img/socials/${social[0]}.png" title="${social[0]}" draggable="false"></a>`;
     }
     socials.innerHTML += `<p>Made with <a href="https://github.com/treviasxk/DevBlog">DevBlog</a></p>`;
 }
 
-window.addEventListener("scroll", () => {
+window.addEventListener("scroll", ()=> {
     LoadPostsBlog();
 });
 
@@ -83,69 +82,55 @@ function ShowToast(text, color){
 }
 
 async function AppMain(){
-    var z, i, content, page;
-    z = document.getElementsByTagName("div");
-    for(i = 0; i < z.length; i++){
-        content = z[i];
-        page = content.getAttribute("w3-include-html");
+    var includes, i, content, page;
+
+    includes = Array.from(document.getElementsByTagName("div")).filter(item => item.getAttribute("w3-include-html"));
+    for(i = 0; i < includes.length; i++) {
+        content = includes[i].parentElement;
+        page = includes[i].getAttribute("w3-include-html");
+        includes[i].remove();
+
+        var AU = ()=>{
+            ChangeTitle(Title);
+            if(Authenticated){
+                var SignIn = document.getElementById("SignIn");
+                if(SignIn){
+                    if(searchParams.get("post") && searchParams.get("post") == 0){
+                        SignIn.setAttribute("id","NoButton");
+                    }else{
+                        SignIn.setAttribute("onclick","window.location.href='?post=0';");
+                        SignIn.setAttribute("id","Edit");
+                    }
+                }
+            }
+        }
 
         if(searchParams.get("post") && searchParams.get("post") != 0)
             if(page == "data/layout/appbar.html")
                 page = "data/layout/appbar_backpage.html";
 
-        if(searchParams.get("page") && page == "data/pages/home.html"){
-            if(searchParams.get("page") == "blog")
-                await LoadBlog(searchParams.get("page"), content)
-            else
-                await LoadPage(searchParams.get("page"), content);
-        }else
-        if(searchParams.get("post") && page == "data/pages/home.html"){
-            await LoadPost(searchParams.get("post"), content);
-        }else{
-            if(page){
-                var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function(){
-                    if(this.readyState == 4) {
-                        var elmnt = content.parentNode;
-                        if(this.status == 200){
-                            content.innerHTML = this.responseText;
-                            if(page == "data/pages/home.html"){
-                                SelectMenuItem("home");
-                                ChangeTitle(Pages["home"]);
-                            }
-                        }
-                        if(this.status == 404) {LoadPage("404", content);}
-                        for(const child of content.childNodes)
-                            elmnt.appendChild(child.cloneNode(true));
-                        content.remove();
-                        AppMain();
-                    }
-                }
-                xhttp.open("GET", page, true);
-                xhttp.send();
-                return;
-            }
-        }
-    }
-    LoadSwipe();
+        if(page == "data/layout/appbar.html" || page == "data/layout/appbar_backpage.html")
+            await LoadLayout(page, content, AU);
 
-    if(Authenticated){
-        var SignIn = document.getElementById("SignIn");
-        if(SignIn){
-            if(searchParams.get("post") && searchParams.get("post") == 0){
-                SignIn.setAttribute("id","NoButton");
+        if(page == "data/layout/content.html")
+            if(searchParams.get("page")){
+                await LoadPage(searchParams.get("page"), content);
             }else{
-                SignIn.setAttribute("onclick","window.location.href='?post=0';");
-                SignIn.setAttribute("id","Edit");
+                if(!SupabaseKey && !SupabaseUrl)
+                    await LoadLayout("data/layout/setup.html", content);
+                else
+                if(searchParams.get("post"))
+                    await LoadPost(searchParams.get("post"), content);
+                else
+                    await LoadLayout(page, content, LoadPostsBlog);
             }
-        }
     }
+
+    LoadSwipe();
 }
 
 
-
 function LoadSwipe() {
-    CloseScreenLoading();
     var content = document.getElementById('Content');
     if(!document.body.contains(document.getElementById('BackPage'))){
         swipedetect(content, (swipedir) => {
@@ -281,13 +266,8 @@ function ChangeTitle(newtitle, header){
     document.title = newtitle;
 }
 
-async function LoadBlog(id, content){
-    content.removeAttribute("w3-include-html");
-    await LoadPage(id, content, LoadPostsBlog);
-}
 
 async function LoadPost(id, content){
-    content.removeAttribute("w3-include-html");
     const { data } = supabase ? await supabase
     .from('blog')
     .select()
@@ -329,21 +309,21 @@ async function LoadPost(id, content){
     
 
     if(data){
-        await LoadLayout("post", content, afterContent);
+        await LoadLayout("data/layout/post.html", content, afterContent);
         document.getElementById("Content").classList.add("SlideLeft");
     }else{
         if(id == 0 && Authenticated){
-            await LoadLayout("post", content, afterContent);
+            await LoadLayout("data/layout/post.html", content, afterContent);
         }else
-            await LoadPage("404", content);
+            await LoadLayout("data/layout/nocontent.html", content);
     }
 }
 
 
-function SelectMenuItem(page){
+function SelectMenuItem(){
     var navigate = document.querySelectorAll('.MenuItem');
     for(const child of navigate)
-      if(child.getAttribute("href") == "?page=" + page || child.getAttribute("href") == hostname && page == "home")
+      if(child.getAttribute("href") == window.location.href)
         child.setAttribute("class", "MenuItemSeleteced");
 }
 
@@ -352,23 +332,16 @@ async function LoadPage(page, content, action = null){
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = async function(){
       if(this.readyState == 4) {
-        var elmnt = content.parentNode;
+
         if(this.status == 200) {
           content.innerHTML = this.responseText;
-          SelectMenuItem(page);
-          ChangeTitle(Pages[page] || page);
-
-          if(searchParams.get("post")){
-            if(elmnt)
-              elmnt.setAttribute("class", "SlideLeft");
-          }
           action?.apply();
-          CloseScreenLoading();
+          ChangeTitle(page);
         }
 
         // Talvez remova
         if(this.status == 404){
-            await LoadPage("404", content);
+            await LoadLayout("data/layout/404.html", content);
         }
       }
     }
@@ -378,17 +351,16 @@ async function LoadPage(page, content, action = null){
 }
 
 async function LoadLayout(page, content, action = null){
-    var file = "data/layout/" + page + ".html";
+    var file = page;
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function(){
-      if(this.readyState == 4) {
-        var elmnt = content.parentNode;
-        if(this.status == 200) {
-          content.innerHTML += this.responseText;
-          SelectMenuItem(page);
-          action?.apply();
+        if(this.readyState == 4) {
+            if(this.status == 200) {
+                content.innerHTML += this.responseText;
+                SelectMenuItem();
+                action?.apply();
+            }
         }
-      }
     }
 
     xhttp.open("GET", file, true);
@@ -412,14 +384,14 @@ function OpenEditor(open){
 }
 
 async function LoadPostsBlog(){
-    const page = searchParams.get("page");
-    if(firstRunning && page == "blog"){
+    if(firstRunning && !searchParams.get("page")){
         var scrollValue = this.scrollY + document.documentElement.clientHeight;
         var scrollMaximum = Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight);
         var apiBuffering = (scrollMaximum / 100) * TotalPostsLoadInScroll;
         var query = searchParams.get("q");
         var tag = searchParams.get("tag");
         var Card = document.getElementById("Posts");
+        const search = document.getElementById("search");
         search.value = query;
         query = query == null ? "" : query;
         tag = tag == null ? "" : tag;
@@ -452,7 +424,7 @@ async function LoadPostsBlog(){
                 LoadPostsBlog();
             }else{
                 if(pageIndex == 0)
-                    Card.innerHTML += "<h2>Not found post</h2>";
+                    LoadLayout("data/layout/nopost.html", Card);
                 LoadingContent.style.display = "none";
                 firstRunning = false;
             }
@@ -611,11 +583,11 @@ async function Delete(){
 }
 
 function SearchPost(event){
-    if(event.key == "Enter" && searchParams.get("page") == "blog")
+    if(event.key == "Enter")
         if(search.value != "")
-            window.location.href = '/?page=blog&q=' + search.value;
+            window.location.href = '/?q=' + search.value;
         else
-        window.location.href = '/?page=blog';
+            window.location.href = '/';
 }
 
 

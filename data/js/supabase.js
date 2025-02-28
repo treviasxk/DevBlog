@@ -9,5 +9,7 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 try{
     supabase = createClient(SupabaseUrl, SupabaseKey)
 }catch(e){
+    if(SupabaseKey || SupabaseUrl)
+        ShowToast(e);
     supabase = null;
 }

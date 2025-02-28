@@ -75,6 +75,236 @@ video {
     width: 100%;
 }
 
+h1 {
+    text-align: center;
+}
+
+h2, h3 {
+    text-align: left;
+}
+
+a {
+    font-size: 17px;
+    color: var(--TextColor);
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+}
+.Pin {
+    color: var(--SegundaryColor);
+}
+.Pin:hover{
+    color: var(--PrimaryColor);
+}
+
+a:hover{
+    color: var(--PrimaryColor);
+}
+
+p > img {
+    display: block;
+    max-height: 600px;
+    width: auto;
+    margin-right: auto;
+    max-width: 100%;
+    margin-left: auto;
+}
+
+
+.profile {
+    width: 200px !important;
+    height: auto !important;
+    border-radius: 250px;
+    border: var(--PrimaryColor) 1px solid;
+}
+
+hr{
+    margin-top: 10px;
+    border:var(--ShadowColor) 1px solid;
+}
+
+.Footer {
+    display: table;
+    margin: 0 auto;
+    margin-top: 10px;
+    text-align: center;
+    width: 100%;
+    color: #888888;
+    font-weight: bold;
+}
+
+.Footer > p {
+    text-align: center;
+}
+.Footer > p > a {
+    color: var(--PrimaryColor);
+}
+.Footer > p > a:hover {
+    color: var(--ShadowColor);
+}
+
+.Footer > a > img {
+    padding: 0px 10px;
+    width: 30px;
+    height: 30px; 
+}
+
+.VerticalMenu{
+    color: var(--TextColor);
+    width: 100%;
+    height: calc(100% - 200px);
+}
+  
+.VerticalMenu > a{
+    color: var(--TextColor);
+    display: block;
+    padding: 12px;
+    text-align: left;
+}
+
+.VerticalMenu a:hover {
+    background-color: var(--ShadowColor);
+}
+
+.MenuItemSeleteced {
+    background-color: var(--PrimaryColor);
+    color: var(--AppBarText);
+}
+
+/*Layout básico*/
+
+.Card {
+    display: flow-root;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    box-shadow: 0px 0px 5px var(--ShadowColor);
+    background: var(--PanelBackground);
+}
+
+
+
+li[data-list=bullet] > .ql-ui:before{
+    content: '\2022';
+}
+
+li[data-list=ordered] > .ql-ui::before{
+    display: inline-block;
+    content: counter(item) ". ";
+    counter-increment: item;
+
+}
+.content > ol > li > .ql-ui:before {
+    display: inline-block;
+    margin-left: -1.5em;
+    margin-right: .3em;
+    text-align: right;
+    white-space: nowrap;
+    width: 1.2em;
+}
+.content > ol {
+    counter-reset: item;
+}
+
+.content > ol > li {
+    list-style-type: none;
+}
+
+.content > img {
+    display: block;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    max-width: 100%;
+}
+
+h2 > img {
+    display: inline-block !important;
+}
+
+.Card > * > img, .Card > img, .Card > video, .Card > a > img {
+    display: block;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    max-width: 100%;
+    height: auto;
+}
+
+.Card > * > p, .Card > p, .Card > ul > li, .Card > li {
+    text-align: justify;
+    margin: 0px;
+}
+
+.Card > p > a, .content  p >a {
+    color: dodgerblue;
+}
+.Card > .title {
+    font-weight: bold;
+    border-bottom: 1px solid var(--ShadowColor);
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    font-size: 25px;
+}
+.CardDateTime {
+    text-align: right !important;
+    color: var(--ShadowColor);
+}
+
+.FullScreen{
+    padding: 20px;
+    display: table;
+    position: absolute;
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
+    background: var(--PanelBackground);
+    text-align: center;
+}
+
+.FullScreen > h1, .FullScreen > h2 {
+    text-align: center;
+    margin-block-end: 5px;
+}
+
+.FullScreen > p {
+    display: inline-block;
+    max-width: 500px;
+    margin-block: 0px;
+    text-align: justify;
+}
+
+.FullScreen > img {
+    max-width: 100%;
+}
+
+.FullScreen > form{
+    display: table-cell;
+    vertical-align: middle;
+}
+
+form{
+    text-align: center;
+}
+form > input, form > select{
+    background-color: var(--BackgroundColor);
+    box-sizing: border-box;
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px 10px;
+    width: 90%;
+    max-width: 300px;
+    margin-bottom: 10px;
+    border: 1px solid var(--ShadowColor);
+    color: var(--TextColor);
+    border-radius: 5px;
+}
+
+.btn {
+    cursor: pointer;
+    color: var(--AppBarText);
+    background-color: var(--PrimaryColor);
+}
+
 #ScreenLoading {
     display: table;
     z-index: 1;

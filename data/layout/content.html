@@ -15,11 +15,11 @@
             </div>
         </div>
 
-        <input required id="search" onkeypress="SearchPost(event)" type="text" placeholder="Search..."
+        <input id="search" autocomplete="off" onkeypress="SearchPost(event)" type="text" placeholder="Search..."
             style="position: relative; top: -6px;display: inline-block; margin: 10px; border-radius: 5px; border: var(--ShadowColor) 1px solid; width: calc(100% - 122px); padding: 10px; background-color: var(--PanelBackground); color: var(--TextColor)" />
     </div>
     <div id="Posts"></div>
     <div id="LoadingContent" style="text-align: center;">
-        <img src="data/img/loading.gif" width="50" height="50" alt="Carregando..." />
+        <img draggable="false" src="data/img/loading.gif" width="50" height="50" alt="Carregando..." />
     </div>
 </div>

@@ -14,20 +14,19 @@ var MaxCharacteresPosts = 500;      // Maximum number of characters to display i
 // example "home": "Home" -> /data/pages/home.html
 var Pages = {
     "home": "Home",
-    "blog": "Blog",
     "donate": "Donate",
     "contact": "Contact",
     "about": "About",
 };
 
 // Social Networks
-// Available: github, x, linkedin, facebook, instagram
+// Available: Github, X, Linkedin, Instagram, YouTube, Discord, Facebook, Twitch
 var SocialNetworks = {
     //example: "github": "https://github.com/treviasxk",
-    "github": "",
-    "x": "",
-    "linkedin": "",
-    "instagram": "",
+    "Github": "",
+    "X": "",
+    "Linkedin": "",
+    "YouTube": "",
 }
 
 // Webhook
