@@ -82,9 +82,8 @@ function ShowToast(text, color){
 }
 
 async function AppMain(){
-    var includes, i, content, page;
-
-    includes = Array.from(document.getElementsByTagName("div")).filter(item => item.getAttribute("w3-include-html"));
+    var i, content, page;
+    var includes = Array.from(document.getElementsByTagName("div")).filter(item => item.getAttribute("w3-include-html"));
     for(i = 0; i < includes.length; i++) {
         content = includes[i].parentElement;
         page = includes[i].getAttribute("w3-include-html");
@@ -114,7 +113,14 @@ async function AppMain(){
 
         if(page == "data/layout/content.html")
             if(searchParams.get("page")){
-                await LoadPage(searchParams.get("page"), content);
+                switch(searchParams.get("page")){
+                    case "login":
+                        await LoadLayout("data/layout/login.html", content);
+                    break;
+                    default:
+                        await LoadPage(searchParams.get("page"), content);
+                    break;
+                }
             }else{
                 if(!SupabaseKey && !SupabaseUrl)
                     await LoadLayout("data/layout/setup.html", content);
@@ -367,8 +373,6 @@ async function LoadLayout(page, content, action = null){
     xhttp.send();
 }
 
-
-
 function OpenEditor(open){
     if(open){
         Editor.style.display = "block";
@@ -384,7 +388,7 @@ function OpenEditor(open){
 }
 
 async function LoadPostsBlog(){
-    if(firstRunning && !searchParams.get("page")){
+    if(SupabaseKey && SupabaseUrl && firstRunning && !searchParams.get("post")){
         var scrollValue = this.scrollY + document.documentElement.clientHeight;
         var scrollMaximum = Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight);
         var apiBuffering = (scrollMaximum / 100) * TotalPostsLoadInScroll;
@@ -392,7 +396,8 @@ async function LoadPostsBlog(){
         var tag = searchParams.get("tag");
         var Card = document.getElementById("Posts");
         const search = document.getElementById("search");
-        search.value = query;
+        if(search)
+            search.value = query;
         query = query == null ? "" : query;
         tag = tag == null ? "" : tag;
         if(tag != "")
@@ -415,7 +420,7 @@ async function LoadPostsBlog(){
                     Card.innerHTML += `<div class="Card"><a style='width:calc(100% - 40px)' ` + (data[i].pin ? 'class="Pin"' : '') +' href="?post=' +data[i].id +'">' +  (data[i].pin ? '<div id="Pin"></div>' : '') + data[i].title + `</a><div class="dropdown">
   <div id="Options"></div>
   <div class="dropdown-content">
-    <a href="#" onclick="navigator.clipboard.writeText('${window.location.hostname}/?post=${data[i].id}');ShowToast('URL Copied!', 'var(--PrimaryColor)');">Copy URL</a>
+    <a href="#" onclick="navigator.clipboard.writeText('${window.location.hostname}?post=${data[i].id}');ShowToast('URL Copied!', 'var(--PrimaryColor)');">Copy URL</a>
   </div>
 </div>` + '<br/>' + await CreateTag(data[i].tags) + EmbedContent(data[i].content, true) + '<hr/><div class="CardDateTime">' + new Date(data[i].date) + '</div></div></div>';
                 }
@@ -424,7 +429,7 @@ async function LoadPostsBlog(){
                 LoadPostsBlog();
             }else{
                 if(pageIndex == 0)
-                    LoadLayout("data/layout/nopost.html", Card);
+                    LoadLayout("data/layout/404.html", Card);
                 LoadingContent.style.display = "none";
                 firstRunning = false;
             }
@@ -436,7 +441,7 @@ function CreateTag(tags){
     var tag = tags.split(", ");
     var result = "<br/>";
     tag.forEach(element => {
-        result += `<div id="Tag" onclick="window.location.href='/?page=blog&tag=${element}'">${element}</div>`;
+        result += `<div id="Tag" onclick="window.location.href='${hostname}?tag=${element}'">${element}</div>`;
     });
     return result;
 }
@@ -488,10 +493,10 @@ function EmbedContent(markdown, textOnly = false){
     if(textOnly){
         html = RemoveHTMLTags(html);
         if(ImageContent)
-            html = `<img style='height: 100px;width: auto; max-width: 300px;float: left;padding-right: 15px;' src="${ImageContent}"/>` + html;    
-    }
-    
-    return '<p style="margin-top:10px;' + (ImageContent ? 'min-height: 100px;' : '') + '">' + html + '</p>'; // Return original string if no match is found
+            html = `<img style='height: 100px;width: auto; max-width: 300px;float: left;padding: 0px 15px 0px 0px;' src="${ImageContent}"/>` + html;    
+        return '<p style="margin-top:10px; padding:0px;' + (ImageContent ? 'min-height: 100px;' : '') + '">' + html + '</p>'; // Return original string if no match is found
+    }else
+        return html;
 }
 
 function RemoveHTMLTags(html){
@@ -577,7 +582,7 @@ async function Delete(){
         .from('blog')
         .delete()
         .eq('id', searchParams.get("post"));
-        window.location.href='?page=blog';
+        window.location.href=hostname;
     }
     document.getElementById("Process").style.display = "none";
 }
@@ -585,7 +590,7 @@ async function Delete(){
 function SearchPost(event){
     if(event.key == "Enter")
         if(search.value != "")
-            window.location.href = '/?q=' + search.value;
+            window.location.href = '?q=' + search.value;
         else
             window.location.href = '/';
 }

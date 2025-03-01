@@ -81,6 +81,8 @@ h1 {
 
 h2, h3 {
     text-align: left;
+    padding: 0px 10px 0px 10px;
+    margin: 10px 0px 5px 0px;
 }
 
 a {
@@ -100,16 +102,6 @@ a {
 a:hover{
     color: var(--PrimaryColor);
 }
-
-p > img {
-    display: block;
-    max-height: 600px;
-    width: auto;
-    margin-right: auto;
-    max-width: 100%;
-    margin-left: auto;
-}
-
 
 .profile {
     width: 200px !important;
@@ -183,7 +175,6 @@ hr{
 }
 
 
-
 li[data-list=bullet] > .ql-ui:before{
     content: '\2022';
 }
@@ -208,30 +199,27 @@ li[data-list=ordered] > .ql-ui::before{
 
 .content > ol > li {
     list-style-type: none;
-}
-
-.content > img {
-    display: block;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    max-width: 100%;
+    padding: 0px 0px 5px 0px;
 }
 
 h2 > img {
     display: inline-block !important;
 }
 
-.Card > * > img, .Card > img, .Card > video, .Card > a > img {
+.Card > * > img, .Card > img, .Card > video,  .Card > * > video {
     display: block;
     margin-left: auto !important;
     margin-right: auto !important;
-    max-width: 100%;
+    max-width: calc(100% - 20px);
     height: auto;
+    max-height: 550px;
+    padding: 0px 10px 0px 10px;
 }
 
 .Card > * > p, .Card > p, .Card > ul > li, .Card > li {
     text-align: justify;
     margin: 0px;
+    padding: 0px 10px 0px 10px;
 }
 
 .Card > p > a, .content  p >a {
