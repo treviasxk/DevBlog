@@ -14,6 +14,8 @@ let searchParams = new URLSearchParams(urlParams);
 
 if(path == "/index.html")
     window.location.href=hostname + (params ? params : "");
+if(searchParams.get("tag") == "")
+    window.location.href=hostname;
 
 var Loading = true;
 var supabase = null;
@@ -326,11 +328,16 @@ async function LoadPost(id, content){
 }
 
 
-function SelectMenuItem(){
+function SelectItem(){
     var navigate = document.querySelectorAll('.MenuItem');
-    for(const child of navigate)
-      if(child.getAttribute("href") == window.location.href)
+
+    for(const child of navigate){
+      if(child.getAttribute("href") == "?tag=" + searchParams.get("tag")
+        || child.getAttribute("href") == window.location.href
+        || searchParams.get("tag") && child.getAttribute("href") == hostname
+        || !searchParams.get("tag") && child.getAttribute("href") == "?tag=")
         child.setAttribute("class", "MenuItemSeleteced");
+    }
 }
 
 async function LoadPage(page, content, action = null){
@@ -363,7 +370,7 @@ async function LoadLayout(page, content, action = null){
         if(this.readyState == 4) {
             if(this.status == 200) {
                 content.innerHTML += this.responseText;
-                SelectMenuItem();
+                SelectItem();
                 action?.apply();
             }
         }

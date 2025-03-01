@@ -11,9 +11,9 @@ var MaxCharacteresPosts = 500;      // Maximum number of characters to display i
 
 // Menu
 // Add the name of the html file you want as the page, and the title you want it to have. html pages are loaded from /data/pages/
-// example "home": "Home" -> /data/pages/home.html
+// example "donate": "Donate" -> /data/pages/donate.html
 var Pages = {
-    "home": "Home",
+    "home": "Home", // Dont remove this element, this is default path /
     "donate": "Donate",
     "contact": "Contact",
     "about": "About",
@@ -33,5 +33,5 @@ var SocialNetworks = {
 var DiscordWebHook = "";
 
 // Supabase
-var SupabaseUrl = "";
-var SupabaseKey = "";
+var SupabaseUrl = "x";
+var SupabaseKey = "x";

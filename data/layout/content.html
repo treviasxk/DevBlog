@@ -3,15 +3,15 @@
         <div id="FilterBackground" style="cursor: pointer; display: inline-block; margin: 20px 0px 10px 10px; padding: 5px; border-radius: 5px; background: var(--ShadowColor); text-align: center;" onclick="FilterItem.style.display = (FilterItem.style.display == 'none' ? 'block' : 'none');">
             <div id="Filter"></div>
               
-            <div id="FilterItem" style="display: none; opacity: 1f; padding: 5px; position: fixed; cursor: auto; border-radius: 5px; margin-top: 10px; background: var(--SegundaryColor); z-index: 1;">
+            <div id="FilterItem" style="display: none; opacity: 1f; padding: 5px; position: fixed; cursor: auto; border-radius: 5px; margin-top: 10px; z-index: 1;">
                 <div class="dropdown-content" style="display: block; margin-left: 0px; max-height: 500px; overflow: auto;">
-                    <a href="#" onclick="window.location.href='?page=blog'">None</a>
+                    <a href="?tag=" class="MenuItem">None</a>
                     <hr/>
-                    <a href="#" onclick="window.location.href='?page=blog&tag=Announce'">Announce</a>
-                    <a href="#" onclick="window.location.href='?page=blog&tag=Release'">Release</a>
-                    <a href="#" onclick="window.location.href='?page=blog&tag=Changelog'">Changelog</a>
-                    <a href="#" onclick="window.location.href='?page=blog&tag=Tutorial'">Tutorial</a>
-                    <a href="#" onclick="window.location.href='?page=blog&tag=Other'">Other</a>
+                    <a href="?tag=Announce" class="MenuItem">Announce</a>
+                    <a href="?tag=Release" class="MenuItem">Release</a>
+                    <a href="?tag=Changelog" class="MenuItem">Changelog</a>
+                    <a href="?tag=Tutorial" class="MenuItem">Tutorial</a>
+                    <a href="?tag=Other" class="MenuItem">Other</a>
                 </div>
             </div>
         </div>
