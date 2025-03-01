@@ -33,5 +33,5 @@ var SocialNetworks = {
 var DiscordWebHook = "";
 
 // Supabase
-var SupabaseUrl = "x";
-var SupabaseKey = "x";
+var SupabaseUrl = "";
+var SupabaseKey = "";
