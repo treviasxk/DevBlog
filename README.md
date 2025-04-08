@@ -14,6 +14,13 @@ This project is using the [WebAppMobile](https://github.com/treviasxk/WebAppMobi
   - Rich Text Editor to posts.
   - Pin posts in blog.
   - Search posts in Blog page.
+  - Add pages easily in menu.
   - Embed links Youtube, Image and Video to posts.
   - Scroll infinit load post in blog page.
   - Suport to WebHook in Discord.
+
+## Contribute
+You can contribute to the project, either by forking it with a Pull request, or by [sponsor](https://github.com/sponsors/treviasxk) the project, this will keep me focused on the project.
+
+## Demo
+You can check out my personal blog as a demo: https://treviasxk.github.io/
