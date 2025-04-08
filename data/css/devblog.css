@@ -8,23 +8,26 @@
 :root {
     --PrimaryColor: #065acf;
     --SegundaryColor: #03498f;
-    --BackgroundColor: #000000;
     --HyperLink: dodgerblue;
-    --ShadowColor: #006aff5b;
+    --ShadowColor: #006affa3;
     --AppBarText: #FFFFFF;
-    --PanelBackground: #000000c0;
 }
 
 @media (prefers-color-scheme: light) {
     body {
         --TextColor: #000000;
-        --BackgroundColor: #FFFFFF;
+        --BackgroundColor: #ffffff;
+        --PanelBackground: #ffffffad;
+    }
+    #Pin{
+        filter: invert(1);
     }
 }
 @media (prefers-color-scheme: dark) {
     body {
         --TextColor: #FFFFFF;
         --BackgroundColor: #000000;
+        --PanelBackground: #000000c0;
     }
 }
 
@@ -59,11 +62,14 @@ body {
     user-select: none;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
+    display: block;
+    top: 50px;
+    position: relative;
 }
 
 body > video {
     position: fixed;
-    opacity: 0.3;
+    opacity: 0.2;
     left: 0px;
     top: 0px;
     width: 100%;
@@ -72,9 +78,6 @@ body > video {
     object-fit: cover;
 }
 
-video {
-    width: 100%;
-}
 
 h1 {
     text-align: center;
@@ -258,7 +261,6 @@ h2 > img {
     position: absolute;
     width: calc(100% - 40px);
     height: calc(100% - 40px);
-    background: var(--PanelBackground);
     text-align: center;
 }
 
@@ -369,6 +371,7 @@ form > input, form > select{
 }
 
 #Content {
+    display: contents;
     position: absolute;
     left: 0px;
     top: 50px;

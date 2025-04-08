@@ -1,55 +1,54 @@
 <div class="Feed">
-    <br/>
-     <div id="SelectMode" style="text-align: center;display: none;background: var(--PanelBackground);justify-content: space-around;" onclick="RefreshContent()">
-        <div id="previewbtn" style="cursor: pointer; text-align: center; display: inline-block; width: 40%; padding: 10px; background-color: var(--ShadowColor);"
-        onclick="OpenEditor(false)">
-            Preview
-        </div>
-        <div id="editorbtn" style="cursor: pointer; text-align: center; display: inline-block; width: 40%; padding: 10px; background-color: var(--PanelBackground);"
-        onclick="OpenEditor(true)">
-            Editor
-        </div>
-     </div>
-
-    <!-- Preview -->
-    <div id="Preview" class="Card">
-        <div class="title">Title</div>
-        <div class="content">Enter your text here...</div>
-        <hr />
-        <p class="CardDateTime">Date</p>
+    <div id="SelectMode" style="text-align: center;display: none;background: var(--PanelBackground);justify-content: space-around;" onclick="RefreshContent()">
+       <div id="previewbtn" style="cursor: pointer; text-align: center; display: inline-block; width: 40%; padding: 10px; background-color: var(--ShadowColor);"
+       onclick="OpenEditor(false)">
+           Preview
+       </div>
+       <div id="editorbtn" style="cursor: pointer; text-align: center; display: inline-block; width: 40%; padding: 10px; background-color: var(--PanelBackground);"
+       onclick="OpenEditor(true)">
+           Editor
+       </div>
     </div>
 
-    <!-- Editor -->
-    <div id="Editor" class="Card" style="display: none;">
-        <input autocomplete="off" required id="titlepost" type="text" placeholder="Insert your Title here..."
-            style="border-radius: 5px; border: var(--ShadowColor) 1px solid; width: calc(100% - 22px); padding: 10px; background-color: #000000; color: var(--TextColor)" />
-        <br />
-        <br />
-        <input autocomplete="off" required id="tagspost" type="text" placeholder="Tags, separe with , (example: tag1, tag2)"
-            style="border-radius: 5px; border: var(--ShadowColor) 1px solid; width: calc(100% - 22px); padding: 10px; background-color: #000000; color: var(--TextColor)" />
-        
-        <br />
-        <input style="color: var(--TextColor); background-color: #000000;" type="checkbox" id="pinpost" value="Pin">
-        <label for="pinpost">Pin post</label>
-        <br />
-        <br />
-        <!-- Create the editor container -->
-        <div id="editor" style="min-height: 500px; display: grid;">
-            <p>Hello World!</p>
-            <p>Some initial <strong>bold</strong> text</p>
-            <p><br /></p>
+   <!-- Preview -->
+   <div id="Preview" class="Card">
+       <div class="title">Title</div>
+       <div class="content">Enter your text here...</div>
+       <hr />
+       <p class="CardDateTime">Date</p>
+   </div>
+
+   <!-- Editor -->
+   <div id="Editor" class="Card" style="display: none;">
+       <input autocomplete="off" required id="titlepost" type="text" placeholder="Insert your Title here..."
+           style="border-radius: 5px; border: var(--ShadowColor) 1px solid; width: calc(100% - 22px); padding: 10px; background-color: #000000; color: var(--TextColor)" />
+       <br />
+       <br />
+       <input autocomplete="off" required id="tagspost" type="text" placeholder="Tags, separe with , (example: tag1, tag2)"
+           style="border-radius: 5px; border: var(--ShadowColor) 1px solid; width: calc(100% - 22px); padding: 10px; background-color: #000000; color: var(--TextColor)" />
+       
+       <br />
+       <input style="color: var(--TextColor); background-color: #000000;" type="checkbox" id="pinpost" value="Pin">
+       <label for="pinpost">Pin post</label>
+       <br />
+       <br />
+       <!-- Create the editor container -->
+       <div id="editor" style="min-height: 500px; display: grid;">
+           <p>Hello World!</p>
+           <p>Some initial <strong>bold</strong> text</p>
+           <p><br /></p>
+       </div>
+       <div style="margin-top: 10px; text-align: center;display: flex;background: var(--PanelBackground);justify-content: space-around;">
+           <br/>
+           <div style="border-radius: 5px;cursor: pointer; text-align: center; display: inline-block; width: 40%; padding: 10px; background-color: var(--PrimaryColor);"
+           onclick="Delete()">
+               Delete
+           </div>
+   
+           <div style="border-radius: 5px; cursor: pointer; text-align: center; display: inline-block; width: 40%; padding: 10px; background-color: var(--PrimaryColor);"
+           onclick="Publish()">
+               Publish
+           </div>
         </div>
-        <div style="margin-top: 10px; text-align: center;display: flex;background: var(--PanelBackground);justify-content: space-around;">
-            <br/>
-            <div style="border-radius: 5px;cursor: pointer; text-align: center; display: inline-block; width: 40%; padding: 10px; background-color: var(--PrimaryColor);"
-            onclick="Delete()">
-                Delete
-            </div>
-    
-            <div style="border-radius: 5px; cursor: pointer; text-align: center; display: inline-block; width: 40%; padding: 10px; background-color: var(--PrimaryColor);"
-            onclick="Publish()">
-                Publish
-            </div>
-         </div>
-    </div>
+   </div>
 </div>

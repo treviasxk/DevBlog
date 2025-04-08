@@ -161,9 +161,15 @@ function LoadSwipe() {
 // Back Page
 function BackPage(){
     document.getElementById("Content").classList.add("SlideRight");
-    setTimeout(function() {
-        window.history.back();
-    }, 200);
+    if(document.referrer){
+        setTimeout(function() {
+            window.history.back();
+        }, 200);
+    }else{
+        setTimeout(function() {
+            window.location.href=hostname;
+        }, 200);
+    }
 }
 
 // Close or open Menu Navigation
@@ -174,7 +180,6 @@ function OpenNavigation(Open){
         Content.style.minHeight = "calc(100% - 50px)";
         Content.style.opacity = null;
         document.getElementById("AppBar").style.marginTop = "0px";
-
     }else{
         Navigate.style.left = "-100%";
         Content.style.top = "0px";
@@ -250,7 +255,10 @@ window.onscroll = () => {
         if(prevScrollpos >= currentScrollPos || prevScrollpos == 0){
             document.getElementById("AppBar").style.marginTop = "0px";
         }else{
-            document.getElementById("AppBar").style.marginTop = "-50px";
+            if(currentScrollPos > 50)
+                document.getElementById("AppBar").style.marginTop = "-50px";
+            else
+                document.getElementById("AppBar").style.marginTop = "0px";
         }
         prevScrollpos = currentScrollPos;
     }
@@ -427,7 +435,7 @@ async function LoadPostsBlog(){
                     Card.innerHTML += `<div class="Card"><a style='width:calc(100% - 40px)' ` + (data[i].pin ? 'class="Pin"' : '') +' href="?post=' +data[i].id +'">' +  (data[i].pin ? '<div id="Pin"></div>' : '') + data[i].title + `</a><div class="dropdown">
   <div id="Options"></div>
   <div class="dropdown-content">
-    <a href="#" onclick="navigator.clipboard.writeText('${window.location.hostname}?post=${data[i].id}');ShowToast('URL Copied!', 'var(--PrimaryColor)');">Copy URL</a>
+    <a href="#" onclick="navigator.clipboard.writeText('${hostname}?post=${data[i].id}');ShowToast('URL Copied!', 'var(--PrimaryColor)');">Copy URL</a>
   </div>
 </div>` + '<br/>' + await CreateTag(data[i].tags) + EmbedContent(data[i].content, true) + '<hr/><div class="CardDateTime">' + new Date(data[i].date) + '</div></div></div>';
                 }
