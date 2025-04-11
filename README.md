@@ -12,12 +12,18 @@ This project is using the [WebAppMobile](https://github.com/treviasxk/WebAppMobi
   - System Login to admin.
   - Create/Update/Delete posts from Blog page.
   - Rich Text Editor to posts.
+  - Add tags to posts
   - Pin posts in blog.
   - Search posts in Blog page.
+  - Filter posts for tags in search.
   - Add pages easily in menu.
   - Embed links Youtube, Image and Video to posts.
   - Scroll infinit load post in blog page.
   - Suport to WebHook in Discord.
+  - Suport to theme Dark and Light.
+
+## Installation and configuration
+You can access a complete guide by [clicking here](https://treviasxk.github.io/?post=1).
 
 ## Contribute
 You can contribute to the project, either by forking it with a Pull request, or by [sponsor](https://github.com/sponsors/treviasxk) the project, this will keep me focused on the project.
