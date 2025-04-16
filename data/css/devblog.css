@@ -22,6 +22,12 @@
     #Pin{
         filter: invert(1);
     }
+    #Views{
+        filter: invert(1);
+    }
+    #DateTime{
+        filter: invert(1);
+    }
 }
 @media (prefers-color-scheme: dark) {
     body {
@@ -250,9 +256,11 @@ h2 > img {
     margin-bottom: 15px;
     font-size: 25px;
 }
-.CardDateTime {
-    text-align: right !important;
-    color: var(--ShadowColor);
+.Status {
+    color: var(--TextColor);
+    display: inline-flex;
+    vertical-align: middle;
+    opacity: 0.5;
 }
 
 .FullScreen{
@@ -505,6 +513,22 @@ input[type="checkbox"] {
     width: 25px;
     height: 25px;
     background: url("/data/img/icons.png") 0px -25px;
+}
+
+#Views{
+    display: inline-block;
+    margin-right: 15px;
+    width: 25px;
+    height: 25px;
+    background: url("/data/img/icons.png") -25px -25px;
+}
+
+#DateTime{
+    display: inline-block;
+    margin: 0px 15px;
+    width: 25px;
+    height: 25px;
+    background: url("/data/img/icons.png") -50px -25px;
 }
 
 #Process{

@@ -284,10 +284,9 @@ function ChangeTitle(newtitle, header){
 
 
 async function LoadPost(id, content){
-    const { data } = supabase ? await supabase
-    .from('blog')
-    .select()
-    .eq('id', id) : { data: null };
+    const { data } = supabase ? await supabase.rpc('getblogcontent', {
+        post: id,
+    }) : { data: null };
 
     var afterContent = ()=>{
         if(Authenticated)
@@ -303,7 +302,7 @@ async function LoadPost(id, content){
             document.getElementsByClassName("title").item(0).innerHTML = (data[0].pin ? '<div id="Pin"></div>' : "") + data[0].title;
             document.getElementsByClassName("title").item(0).innerHTML += CreateTag(data[0].tags); 
             document.getElementsByClassName("content").item(0).innerHTML = content;
-            document.getElementsByClassName("CardDateTime").item(0).innerText = new Date(data[0].date);
+            document.getElementsByClassName("Status").item(0).innerHTML = "<div id='Views'></div>" + data[0].views + " Views <div id='DateTime'></div>" + new Date(data[0].date);
             if(Authenticated){
                 const title = document.getElementById('titlepost');
                 const textArea = document.getElementById('editor');
@@ -331,7 +330,7 @@ async function LoadPost(id, content){
         if(id == 0 && Authenticated){
             await LoadLayout("data/layout/post.html", content, afterContent);
         }else
-            await LoadLayout("data/layout/nocontent.html", content);
+            await LoadLayout("data/layout/404.html", content);
     }
 }
 
@@ -437,7 +436,7 @@ async function LoadPostsBlog(){
   <div class="dropdown-content">
     <a href="#" onclick="navigator.clipboard.writeText('${hostname}?post=${data[i].id}');ShowToast('URL Copied!', 'var(--PrimaryColor)');">Copy URL</a>
   </div>
-</div>` + '<br/>' + await CreateTag(data[i].tags) + EmbedContent(data[i].content, true) + '<hr/><div class="CardDateTime">' + new Date(data[i].date) + '</div></div></div>';
+</div>` + '<br/>' + await CreateTag(data[i].tags) + EmbedContent(data[i].content, true) + '<hr/><div class="Status">' + "<div id='Views'></div>" + data[i].views + " Views <div id='DateTime'></div>" + new Date(data[i].date) + '</div></div></div>';
                 }
                 ++pageIndex;
                 firstRunning = true;
@@ -625,7 +624,7 @@ function RefreshContent(){
     document.getElementsByClassName("title").item(0).innerHTML += CreateTag(tags.value); 
 
     document.getElementsByClassName("content").item(0).innerHTML = content;
-    document.getElementsByClassName("CardDateTime").item(0).innerHTML = new Date();
+    document.getElementsByClassName("Status").item(0).innerHTML = "<div id='Views'></div>0 Views <div id='DateTime'></div>" + new Date();
 }
 
 async function SendDiscordWebHook(title, description, url) {
