@@ -302,7 +302,7 @@ async function LoadPost(id, content){
             document.getElementsByClassName("title").item(0).innerHTML = (data[0].pin ? '<div id="Pin"></div>' : "") + data[0].title;
             document.getElementsByClassName("title").item(0).innerHTML += CreateTag(data[0].tags); 
             document.getElementsByClassName("content").item(0).innerHTML = content;
-            document.getElementsByClassName("Status").item(0).innerHTML = "<div id='Views'></div>" + data[0].views + " Views <div id='DateTime'></div>" + new Date(data[0].date);
+            document.getElementsByClassName("Status").item(0).innerHTML = "<div id='Views'></div>" + data[0].views + " Views <div id='DateTime'></div>" + new Date(data[0].date).toLocaleString("default",{ hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric'});
             if(Authenticated){
                 const title = document.getElementById('titlepost');
                 const textArea = document.getElementById('editor');
@@ -431,12 +431,12 @@ async function LoadPostsBlog(){
 
             if(data && data[0]){
                 for(i = 0; i < data.length; i++){
-                    Card.innerHTML += `<div class="Card"><a style='width:calc(100% - 40px)' ` + (data[i].pin ? 'class="Pin"' : '') +' href="?post=' +data[i].id +'">' +  (data[i].pin ? '<div id="Pin"></div>' : '') + data[i].title + `</a><div class="dropdown">
+                    Card.innerHTML += `<div class="Card"><a style='width:calc(100% - 40px);margin-bottom:10px' ` + (data[i].pin ? 'class="Pin"' : '') +' href="?post=' +data[i].id +'">' +  (data[i].pin ? '<div id="Pin"></div>' : '') + data[i].title + `</a><div class="dropdown">
   <div id="Options"></div>
   <div class="dropdown-content">
     <a href="#" onclick="navigator.clipboard.writeText('${hostname}?post=${data[i].id}');ShowToast('URL Copied!', 'var(--PrimaryColor)');">Copy URL</a>
   </div>
-</div>` + '<br/>' + await CreateTag(data[i].tags) + EmbedContent(data[i].content, true) + '<hr/><div class="Status">' + "<div id='Views'></div>" + data[i].views + " Views <div id='DateTime'></div>" + new Date(data[i].date) + '</div></div></div>';
+</div>` + await CreateTag(data[i].tags) + EmbedContent(data[i].content, true) + '<hr/><div class="Status">' + "<div id='Views'></div>" + data[i].views + " Views <div id='DateTime'></div>" + new Date(data[i].date).toLocaleString("default",{ hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric'}) + '</div></div></div>';
                 }
                 ++pageIndex;
                 firstRunning = true;
@@ -624,7 +624,7 @@ function RefreshContent(){
     document.getElementsByClassName("title").item(0).innerHTML += CreateTag(tags.value); 
 
     document.getElementsByClassName("content").item(0).innerHTML = content;
-    document.getElementsByClassName("Status").item(0).innerHTML = "<div id='Views'></div>0 Views <div id='DateTime'></div>" + new Date();
+    document.getElementsByClassName("Status").item(0).innerHTML = "<div id='Views'></div>0 Views <div id='DateTime'></div>" + new Date().toLocaleString("default",{ hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric'});
 }
 
 async function SendDiscordWebHook(title, description, url) {

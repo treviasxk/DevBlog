@@ -22,12 +22,6 @@
     #Pin{
         filter: invert(1);
     }
-    #Views{
-        filter: invert(1);
-    }
-    #DateTime{
-        filter: invert(1);
-    }
 }
 @media (prefers-color-scheme: dark) {
     body {
@@ -71,6 +65,7 @@ body {
     display: block;
     top: 50px;
     position: relative;
+    margin: 0px;
 }
 
 body > video {
@@ -257,10 +252,11 @@ h2 > img {
     font-size: 25px;
 }
 .Status {
-    color: var(--TextColor);
+    color: var(--SegundaryColor);
     display: inline-flex;
+    font-weight: bold;
     vertical-align: middle;
-    opacity: 0.5;
+    opacity: 0.7;
 }
 
 .FullScreen{
@@ -414,6 +410,9 @@ input[type="checkbox"] {
     margin: 10px;
 }
 
+#Tag:active{
+    background-color: var(--SegundaryColor);
+}
 #Tag{
     cursor: pointer;
     font-size: 10px;
@@ -424,7 +423,9 @@ input[type="checkbox"] {
     background-color: var(--PrimaryColor);
     color: var(--AppBarText);
 }
-
+#Submit:active{
+    background-color: var(--SegundaryColor);
+}
 #Submit {
     cursor: pointer;
     color: var(--AppBarText);
@@ -435,33 +436,46 @@ input[type="checkbox"] {
 }
 
 /*Botões*/
+#BackPage:active{
+    background-color: var(--SegundaryColor);
+}
 #BackPage {
     cursor: pointer;
     margin: 0px 15px;
     width: 25px;
     height: 25px;
-    background: url("/data/img/icons.png") -25px 0px;
+    mask: url("/data/img/icons.png") -25px 0px;
+    background-color: white;
+}
+#OpenMenu:active{
+    background-color: var(--SegundaryColor);
 }
 #OpenMenu {
     cursor: pointer;
     margin: 0px 15px;
     width: 25px;
     height: 25px;
-    background: url("/data/img/icons.png") 0px 0px;
+    mask: url("/data/img/icons.png") 0px 0px;
+    background-color: white;
+}
+#SignIn:active{
+    background-color: var(--SegundaryColor);
 }
 #SignIn{
     cursor: pointer;
     margin: 0px 15px;
     width: 25px;
     height: 25px;
-    background: url("/data/img/icons.png") -50px 0px;
+    mask: url("/data/img/icons.png") -50px 0px;
+    background-color: white;
 }
 #Perfil{
     cursor: pointer;
     margin: 0px 15px;
     width: 25px;
     height: 25px;
-    background: url("/data/img/icons.png") -75px 0px;
+    mask: url("/data/img/icons.png") -75px 0px;
+    background-color: white;
     border-radius: 25px;
 }
 
@@ -470,7 +484,8 @@ input[type="checkbox"] {
     margin: 0px 15px;
     width: 25px;
     height: 25px;
-    background: url("/data/img/icons.png") -100px 0px;
+    mask: url("/data/img/icons.png") -100px 0px;
+    background-color: white;
 }
 
 #Pin {
@@ -478,9 +493,9 @@ input[type="checkbox"] {
     margin: -5px 10px -5px 0px;
     width: 25px;
     height: 25px;
-    background: url("/data/img/icons.png") -125px 0px;
+    mask: url("/data/img/icons.png") -125px 0px;
+    background-color: white;
 }
-
 
 #Filter{
     display: inline-block;
@@ -488,7 +503,8 @@ input[type="checkbox"] {
     margin: 0px 15px;
     width: 25px;
     height: 25px;
-    background: url("/data/img/icons.png") -150px 0px;
+    mask: url("/data/img/icons.png") -150px 0px;
+    background-color: white;
 }
 
 #Search{
@@ -497,7 +513,8 @@ input[type="checkbox"] {
     margin: 0px 15px;
     width: 25px;
     height: 25px;
-    background: url("/data/img/icons.png") -175px 0px;
+    mask: url("/data/img/icons.png") -175px 0px;
+    background-color: white;
 }
 
 #NoButton{
@@ -512,23 +529,30 @@ input[type="checkbox"] {
     margin: 0px 15px;
     width: 25px;
     height: 25px;
-    background: url("/data/img/icons.png") 0px -25px;
+    mask: url("/data/img/icons.png") 0px -25px;
+    background-color: white;
+}
+
+#Views:first-of-type{
+    margin-left: 0px;
 }
 
 #Views{
     display: inline-block;
-    margin-right: 15px;
+    margin: 0px 10px 0px 15px;
     width: 25px;
     height: 25px;
-    background: url("/data/img/icons.png") -25px -25px;
+    mask: url("/data/img/icons.png") -25px -25px;
+    background-color: var(--PrimaryColor);
 }
 
 #DateTime{
     display: inline-block;
-    margin: 0px 15px;
+    margin: 0px 10px 0px 15px;
     width: 25px;
     height: 25px;
-    background: url("/data/img/icons.png") -50px -25px;
+    mask: url("/data/img/icons.png") -50px -25px;
+    background-color: var(--PrimaryColor);
 }
 
 #Process{
